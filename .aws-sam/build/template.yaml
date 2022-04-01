@@ -1,0 +1,82 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'My SAM App To provision and maintain my serverless backend
+
+  '
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+  UpdateTablefnc:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: UpdateTablefnc
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Events:
+        Updatevisits:
+          Type: Api
+          Properties:
+            Path: /visits
+            Method: get
+      Policies:
+      - AmazonDynamoDBFullAccess
+    Metadata:
+      SamResourceId: UpdateTablefnc
+  EmailFormfnc:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: EmailFormfnc
+      Handler: index.handler
+      Runtime: nodejs14.x
+      Environment:
+        Variables:
+          VERIFIED_EMAIL: abhishekcs96@gmail.com
+      Events:
+        Emailsend:
+          Type: Api
+          Properties:
+            Path: /contact
+            Method: post
+      Policies:
+      - Statement:
+        - Sid: CloudwatchLogsPolicy
+          Effect: Allow
+          Action:
+          - logs:CreateLogGroup
+          Resource: arn:aws:logs:ap-southeast-2:054336459332:*
+        - Sid: CloudWatchCreatePutPolicy
+          Effect: Allow
+          Action:
+          - logs:CreateLogStream
+          - logs:PutLogEvents
+          Resource: arn:aws:logs:ap-southeast-2:054336459332:log-group:/aws/lambda/Mail_fwd:*
+        - Sid: VisualEditor0
+          Effect: Allow
+          Action:
+          - ses:SendEmail
+          Resource: '*'
+    Metadata:
+      SamResourceId: EmailFormfnc
+  MyDynamoTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: MyDynamodbTable
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      SSESpecification:
+        SSEEnabled: false
+      Tags:
+        Project: VisitCount
+Outputs:
+  UpdateVisitsAPI:
+    Description: API Gateway endpoint URL for Prod stage for Update Visits
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/visits/
+  EmailSendAPI:
+    Description: API Gateway endpoint URL for Prod stage for Email confirmations
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/contact/
