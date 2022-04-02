@@ -7,10 +7,11 @@ Build resources:
   services:
     - docker:dind
   script:
+    - systemctl enable docker.service
     - docker --version
     - sam build
-    - sudo sam local invoke -e ./Lambda/app_event.json UpdateTablefnc
-    - sudo sam local invoke -e ./Node/sendEmail_event.json EmailFormfnc
+    - sam local invoke -e ./Lambda/app_event.json UpdateTablefnc
+    - sam local invoke -e ./Node/sendEmail_event.json EmailFormfnc
     - sam deploy --template-file packaged.yaml --stack-name first-sam-app-2nd-actually --s3-bucket first-sam-app-2nd-actually-s3bucket-1fqra0mlgvqdq --capabilities CAPABILITY_IAM --region ap-southeast-2 --no-confirm-changeset --no-fail-on-empty-changeset
     
     
