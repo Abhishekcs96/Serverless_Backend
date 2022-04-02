@@ -18,4 +18,10 @@ def lambda_handler(event, context):
     #Response is returned as a dict. We can access the keys of a dict by directly referencing it
     #Tried using keys() method but doesnt seem to be the way to access a key within a key(dict within a dict)
     responseBody = json.dumps(int(response["Attributes"]["countvisits"])) # json.dumps converts a python object(dict) into a js string. 
-    return responseBody
+    responseApi = {
+        'statusCode': 200,
+        'headers': {'Content-Type': 'application/json'},
+        'body': responseBody
+    }
+    return responseApi
+
