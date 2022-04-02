@@ -8,7 +8,6 @@ Build resources:
     - docker:dind
   script:
     - docker --version
-    - docker start
     - sam build
     - sudo sam local invoke -e ./Lambda/app_event.json UpdateTablefnc
     - sudo sam local invoke -e ./Node/sendEmail_event.json EmailFormfnc
