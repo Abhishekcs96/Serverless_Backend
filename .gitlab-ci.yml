@@ -6,7 +6,6 @@ Build resources:
   image: registry.gitlab.com/abhishekcs96/serverless_backend/nodepython:latest
   script:
     - sam build
-    - echo '{"countvisits": 145}' | sam local invoke --event - "UpdateTablefnc"
     - sam package --output-template-file packaged.yaml --s3-bucket first-sam-app-2nd-actually-s3bucket-1fqra0mlgvqdq
     - sam deploy --template-file packaged.yaml --stack-name first-sam-app-2nd-actually --s3-bucket first-sam-app-2nd-actually-s3bucket-1fqra0mlgvqdq --capabilites CAPABILITY_IAM --region ap-southeast-2
     
