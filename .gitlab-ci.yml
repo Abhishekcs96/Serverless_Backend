@@ -5,7 +5,7 @@ Build resources:
   stage: buildTestDeploy
   image: registry.gitlab.com/abhishekcs96/serverless_backend/nodepython:latest
   services:
-    - docker:dind
+    - docker:20.10.14-dind
   script:
     - systemctl enable docker.service
     - docker --version
