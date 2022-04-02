@@ -1,6 +1,12 @@
 stages:
-  - build
-  - test
-  - deploy
+  - buildDeployTest
 
- 
+Build resources:
+  stage: buildDeployTest
+  image: registry.gitlab.com/abhishekcs96/serverless_backend/nodepython:latest
+  script:
+    - sam build
+    - sam package --output-template-file packaged.yaml --s3-bucket first-sam-app-2nd-actually-s3bucket-1fqra0mlgvqdq
+    - same deploy --template-file packaged.yaml --stack-name first-sam-app-2nd-actually --s3-bucket first-sam-app-2nd-actually-s3bucket-1fqra0mlgvqdq
+    
+    
