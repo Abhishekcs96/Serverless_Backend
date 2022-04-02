@@ -5,8 +5,9 @@ Build resources:
   stage: buildTestDeploy
   image: registry.gitlab.com/abhishekcs96/serverless_backend/nodepython:latest
   services:
-    - docker:20.10.13-dind
+    - docker:dind
   script:
+    - docker --version
     - sam build
     - sam local invoke -e ./Lambda/app_event.json UpdateTablefnc
     - sam local invoke -e ./Node/sendEmail_event.json EmailFormfnc
