@@ -12,6 +12,7 @@ Resources:
       CodeUri: UpdateTablefnc
       Handler: app.lambda_handler
       Runtime: python3.9
+      Timeout: 10
       Events:
         Updatevisits:
           Type: Api
@@ -28,6 +29,7 @@ Resources:
       CodeUri: EmailFormfnc
       Handler: index.handler
       Runtime: nodejs14.x
+      Timeout: 10
       Environment:
         Variables:
           VERIFIED_EMAIL: abhishekcs96@gmail.com
