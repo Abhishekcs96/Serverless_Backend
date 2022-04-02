@@ -20,7 +20,10 @@ def lambda_handler(event, context):
     responseBody = json.dumps(int(response["Attributes"]["countvisits"])) # json.dumps converts a python object(dict) into a js string. 
     responseApi = {
         'statusCode': 200,
-        'headers': {'Content-Type': 'application/json'},
+        'headers': {'Content-Type': 'application/json',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Allow-Origin': 'https://achandrasekar.com',
+            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'},
         'body': responseBody
     }
     return responseApi
