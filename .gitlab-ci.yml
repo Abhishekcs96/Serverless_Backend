@@ -5,7 +5,7 @@ Build resources:
   stage: buildTestDeploy
   image: registry.gitlab.com/abhishekcs96/serverless_backend/nodepython:latest
   services:
-    - docker:latest-dind
+    - docker:20.10.13-dind
   script:
     - sam build
     - sam local invoke -e ./Lambda/app_event.json UpdateTablefnc
