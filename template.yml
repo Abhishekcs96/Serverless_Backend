@@ -14,7 +14,6 @@ Resources:
       CodeUri: Lambda/ # The folder inside the project where the function/app lives
       Handler: app.lambda_handler # format of filename.functionname (app.lambda_handler)
       Runtime: python3.9 # Runtime env to use
-      Timeout: 30
       Events: # Events that will trigger our lambda fnc
         Updatevisits: # Name of event, can be unique
           Type: Api # type of event (it means the api gateway in this case)
