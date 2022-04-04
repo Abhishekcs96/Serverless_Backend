@@ -4,6 +4,9 @@ Description: >
   My SAM App
   To provision and maintain my serverless backend
 
+# Creatimg Resources.
+# First are the S3 buckets. One for storing sam templates and packages and the other for backup website hosting.
+
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
@@ -30,13 +33,13 @@ Resources:
             Resource: !Join 
               - ''
               - - 'arn:aws:s3:::'
-                - !Ref S3Bucket
+                - !Ref BackupBucket
                 - /*
-      Bucket: !Ref S3Bucket
+      Bucket: !Ref BackupBucket
 
         
-      
-
+# Lambda functions here     
+# One for sending emails, and the other for updating table data in dynamodb for visitor counts on website.
 
   UpdateTablefnc: # name of function
     Type: AWS::Serverless::Function # Type of resource, lambda fnc here
@@ -88,8 +91,8 @@ Resources:
                 - ses:SendEmail
               Resource: "*"
 
-
-
+# Dynamodb table here
+# Stores visitor count.
 
   MyDynamoTable: # creating a dynamodb resource here with the name MYDDBtable
     Type: AWS::Serverless::SimpleTable # We could go with AWS::Dynamodb::Table or so, but this is the sam way, requires much lesser config than the cloudform way
@@ -105,6 +108,9 @@ Resources:
         SSEEnabled: false
       Tags:
         Project: VisitCount
+
+
+#Outputs to show as soon as deployment finishes successfully.
 
 Outputs: # This will be printed to the console when the deployment finishes,
   UpdateVisitsAPI: # It will give us back this api endpoint url which we can use to interact with our fnc.
