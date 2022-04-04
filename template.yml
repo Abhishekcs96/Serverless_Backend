@@ -15,7 +15,6 @@ Resources:
       WebsiteConfiguration: 
         IndexDocument: index.html
         ErrorDocument: index.html
-      DeletionPolicy: Retain
     
   BucketPolicy:
     Type: AWS::S3::BucketPolicy
@@ -88,6 +87,9 @@ Resources:
               Action:
                 - ses:SendEmail
               Resource: "*"
+
+
+
 
   MyDynamoTable: # creating a dynamodb resource here with the name MYDDBtable
     Type: AWS::Serverless::SimpleTable # We could go with AWS::Dynamodb::Table or so, but this is the sam way, requires much lesser config than the cloudform way
