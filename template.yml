@@ -47,6 +47,9 @@ Resources:
               - - 'arn:aws:s3:::'
                 - !Ref BackupBucket
                 - /*
+            Condition:
+              - StringEquals:
+                aws:X-Custom-Header: 'mN62kbnAl3rtY12!Opg2EDF#P9@'
       Bucket: !Ref BackupBucket
 
         
