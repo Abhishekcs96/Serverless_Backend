@@ -30,7 +30,12 @@ Resources:
             Effect: Allow
             Principal: '*'
             Action: 's3:GetObject'
-            Resource: 'arn:aws:s3:::first-sam-app-2nd-actually-backupbucket-1na35pkmjtc4v'
+            Resource: !Join 
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref BackupBucket
+                - /*
+      Bucket: !Ref BackupBucket
 
         
 # Lambda functions here     
@@ -116,7 +121,7 @@ Outputs: # This will be printed to the console when the deployment finishes,
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/contact/"
   WebsiteURL:
     Value: !GetAtt 
-      - BackupBucket
+      - S3Bucket
       - WebsiteURL
     Description: URL for website hosted on S3
   S3BucketSecureURL:
@@ -124,6 +129,6 @@ Outputs: # This will be printed to the console when the deployment finishes,
       - ''
       - - 'https://'
         - !GetAtt 
-          - BackupBucket
+          - S3Bucket
           - DomainName
     Description: Name of S3 bucket to hold website content

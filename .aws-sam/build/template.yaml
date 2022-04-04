@@ -6,13 +6,38 @@ Description: 'My SAM App To provision and maintain my serverless backend
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
+  BackupBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument:
+        Id: MyPolicy
+        Version: 2012-10-17
+        Statement:
+        - Sid: PublicReadForGetBucketObjects
+          Effect: Allow
+          Principal: '*'
+          Action: s3:GetObject
+          Resource:
+            Fn::Join:
+            - ''
+            - - 'arn:aws:s3:::'
+              - Ref: BackupBucket
+              - /*
+      Bucket:
+        Ref: BackupBucket
   UpdateTablefnc:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: UpdateTablefnc
       Handler: app.lambda_handler
       Runtime: python3.9
-      Timeout: 30
       Events:
         Updatevisits:
           Type: Api
@@ -82,3 +107,18 @@ Outputs:
     Description: API Gateway endpoint URL for Prod stage for Email confirmations
     Value:
       Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/contact/
+  WebsiteURL:
+    Value:
+      Fn::GetAtt:
+      - S3Bucket
+      - WebsiteURL
+    Description: URL for website hosted on S3
+  S3BucketSecureURL:
+    Value:
+      Fn::Join:
+      - ''
+      - - https://
+        - Fn::GetAtt:
+          - S3Bucket
+          - DomainName
+    Description: Name of S3 bucket to hold website content
