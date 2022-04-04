@@ -32,10 +32,10 @@ Resources:
             Action: 's3:GetObject'
             Resource: !Join 
               - ''
-              - - 'arn:aws:s3:::first-sam-app-2nd-actually-backupbucket-1na35pkmjtc4v'
-                - !Ref S3Bucket
+              - - 'arn:aws:s3:::'
+                - !Ref BackupBucket
                 - /*
-      Bucket: !Ref S3Bucket
+      Bucket: !Ref BackupBucket
 
         
 # Lambda functions here     
@@ -111,7 +111,6 @@ Resources:
 
 
 #Outputs to show as soon as deployment finishes successfully.
-
 
 Outputs: # This will be printed to the console when the deployment finishes,
   UpdateVisitsAPI: # It will give us back this api endpoint url which we can use to interact with our fnc.
