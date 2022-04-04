@@ -23,6 +23,7 @@ def lambda_handler(event, context):
         'headers': {'Content-Type': 'application/json',
             'Access-Control-Allow-Headers': 'Content-Type',
             'Access-Control-Allow-Origin': 'https://achandrasekar.com',
+            'Access-Control-Allow-Origin': 'http://first-sam-app-2nd-actually-backupbucket-1na35pkmjtc4v.s3-website-ap-southeast-2.amazonaws.com/',
             'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'},
         'body': responseBody
     }
