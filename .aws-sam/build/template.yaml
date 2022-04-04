@@ -110,7 +110,7 @@ Outputs:
   WebsiteURL:
     Value:
       Fn::GetAtt:
-      - S3Bucket
+      - BackupBucket
       - WebsiteURL
     Description: URL for website hosted on S3
   S3BucketSecureURL:
@@ -119,6 +119,6 @@ Outputs:
       - ''
       - - https://
         - Fn::GetAtt:
-          - S3Bucket
+          - BackupBucket
           - DomainName
     Description: Name of S3 bucket to hold website content
