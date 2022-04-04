@@ -8,13 +8,42 @@ Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
 
+  BackupBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicRead
+      WebsiteConfiguration: 
+        IndexDocument: index.html
+        ErrorDocument: index.html
+    
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      PolicyDocument:
+        Id: MyPolicy
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Join 
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref S3Bucket
+                - /*
+      Bucket: !Ref S3Bucket
+
+        
+      
+
+
   UpdateTablefnc: # name of function
     Type: AWS::Serverless::Function # Type of resource, lambda fnc here
     Properties: # properties of this lambda fnc
       CodeUri: Lambda/ # The folder inside the project where the function/app lives
       Handler: app.lambda_handler # format of filename.functionname (app.lambda_handler)
       Runtime: python3.9 # Runtime env to use
-      Timeout: 30
       Events: # Events that will trigger our lambda fnc
         Updatevisits: # Name of event, can be unique
           Type: Api # type of event (it means the api gateway in this case)
@@ -59,6 +88,9 @@ Resources:
                 - ses:SendEmail
               Resource: "*"
 
+
+
+
   MyDynamoTable: # creating a dynamodb resource here with the name MYDDBtable
     Type: AWS::Serverless::SimpleTable # We could go with AWS::Dynamodb::Table or so, but this is the sam way, requires much lesser config than the cloudform way
     Properties:
@@ -81,3 +113,16 @@ Outputs: # This will be printed to the console when the deployment finishes,
   EmailSendAPI:
     Description: "API Gateway endpoint URL for Prod stage for Email confirmations"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/contact/"
+  WebsiteURL:
+    Value: !GetAtt 
+      - S3Bucket
+      - WebsiteURL
+    Description: URL for website hosted on S3
+  S3BucketSecureURL:
+    Value: !Join 
+      - ''
+      - - 'https://'
+        - !GetAtt 
+          - S3Bucket
+          - DomainName
+    Description: Name of S3 bucket to hold website content
