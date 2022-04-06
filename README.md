@@ -13,4 +13,4 @@ The template.yaml file consists of serverless resources to be provisioned for th
 
 # Other
 
-Read <a href="https://abhishekcs96.github.io" target="blank" refferer_policy="no_refferer">here</a> for further information about the project.
+Read <a href="https://abhishekcs96.github.io" target="blank" referrer_policy="no_referrer">here</a> for further information about the project.
