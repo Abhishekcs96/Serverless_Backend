@@ -8,6 +8,7 @@ Build and Test:
   script:
     - sam validate
     - sam build
+    - cd Lambda
     - python test_demoapp.py
     - npm test
   artifacts:
