@@ -10,6 +10,7 @@ Build and Test:
     - sam build
     - cd Lambda
     - python test_demoapp.py
+    - cd ..
     - npm test
   artifacts:
     paths:
