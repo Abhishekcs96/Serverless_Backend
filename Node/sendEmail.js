@@ -1,14 +1,14 @@
 require('dotenv').config()
 const AWS = require('aws-sdk')
 const ses = new AWS.SES({
-    region: process.env.REGION
+    region: process.env.REGION || $AWS_REGION_NAME
 })
 //Process the variables into an email and send it to ses.
 const sendEmail = (name, message, senderEmail) => {
     const params = {
         Destination: {
             ToAddresses: [
-                process.env.VERIFIED_EMAIL
+                process.env.VERIFIED_EMAIL || $VERIFIED_EMAIL
                 ]
         },
         Message:{
@@ -23,7 +23,7 @@ const sendEmail = (name, message, senderEmail) => {
             Charset: 'UTF-8'
         }
         },
-        Source: process.env.VERIFIED_EMAIL,   // the source verified on ses.
+        Source: process.env.VERIFIED_EMAIL || $VERIFIED_EMAIL,   // the source verified on ses.
         ReplyToAddresses: [senderEmail]      // identifies which address the email came from, to reply back to it.
     }
     // use the promise in order to fullfill the execution of the function with ses.
