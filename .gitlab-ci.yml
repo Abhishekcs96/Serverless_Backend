@@ -12,7 +12,7 @@ Build and Test:
     - python test_demoapp.py
     - cd ..
     - npm ci
-    - sudo npm test
+    - npm test
   artifacts:
     paths:
       - build
