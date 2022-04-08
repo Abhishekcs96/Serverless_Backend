@@ -1,23 +1,24 @@
 import boto3
 import json
+# Demo lambda function meant for testing environment. 
+# This fnc will operate on a Test table named DemoTable.
+# Production Table will not get affected with tests and we can perform a full integration test.
+dynamodb = boto3.resource('dynamodb')   
+table = dynamodb.Table('MyDemoDynamodbTable') 
 
-dynamodb = boto3.resource('dynamodb')   #resource dynamodb and set it as a variable to communicate with it
-table = dynamodb.Table('MyDemoDynamodbTable') #set table variable from the ddb resource table in aws.
-
-def demo_lambda_handler(event, context):
-    response = table.update_item(          #Update the item in the table 
-        Key = {                 #Specify the primary key of the item and then update the attribute of it(id is the primary key)
+def lambda_handler(event, context):
+    response = table.update_item(          
+        Key = {                 
         "id" : 'id'
         },
-        UpdateExpression = 'SET countvisits = countvisits + :val',  #We are able to access the countvisits field/attribute of this item and update it by adding a +val to it
-        ExpressionAttributeValues={       # The value of the attribute that was used in the expression to update countvisits
+        UpdateExpression = 'SET countvisits = countvisits + :val',  
+        ExpressionAttributeValues={       
             ':val' : 1
         },
-        ReturnValues="UPDATED_NEW"        #return only the newly updated values. # return response - Returns a dictionary, we need to convert this to json
+        ReturnValues="UPDATED_NEW"       
     )
-    #Response is returned as a dict. We can access the keys of a dict by directly referencing it
-    #Tried using keys() method but doesnt seem to be the way to access a key within a key(dict within a dict)
-    responseBody = json.dumps(int(response["Attributes"]["countvisits"])) # json.dumps converts a python object(dict) into a js string. 
+    
+    responseBody = json.dumps(int(response["Attributes"]["countvisits"])) 
     responseApi = {
         'statusCode': 200,
         'headers': {'Content-Type': 'application/json',
