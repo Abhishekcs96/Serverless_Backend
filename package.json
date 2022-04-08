@@ -11,7 +11,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "sh node_modules/.bin/jest",
+    "test": "node sh node_modules/.bin/jest",
     "test:watch": "jest --watch"
   },
   "repository": {
