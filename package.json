@@ -6,10 +6,11 @@
   "main": "index.js",
   "dependencies": {
     "aws-sdk": "^2.1110.0",
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.0.0"
+  },
+  "devDependencies": {
     "jest": "^27.5.1"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "node node_modules/.bin/jest",
     "test:watch": "jest --watch"
