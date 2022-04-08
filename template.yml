@@ -54,7 +54,7 @@ Resources:
 
         
 # Lambda functions here     
-# One for sending emails, and the other for updating table data in dynamodb for visitor counts on website.
+# One for sending emails, one for updating table data in dynamodb for visitor counts on website and another for testing the same.
 
   UpdateTablefnc: # name of function
     Type: AWS::Serverless::Function # Type of resource, lambda fnc here
@@ -69,6 +69,22 @@ Resources:
           Properties: # properties of the api gateway
             Path: /visits # the endpoint of the api gateway (like /prod/contact in our case)
             Method: get # method to use (get,put,post)
+      Policies:
+        - AmazonDynamoDBFullAccess
+  
+  UpdateDemoTablefnc: 
+    Type: AWS::Serverless::Function 
+    Properties: 
+      CodeUri: Lambda/ 
+      Handler: demoapp.lambda_handler 
+      Timeout: 30
+      Runtime: python3.9
+      Events: 
+        Updatevisits: 
+          Type: Api 
+          Properties: 
+            Path: /visits 
+            Method: get 
       Policies:
         - AmazonDynamoDBFullAccess
 
@@ -124,6 +140,25 @@ Resources:
         SSEEnabled: false
       Tags:
         Project: VisitCount
+  
+
+# Demo Dynamodb table here
+# This is for testing the visitor count functionality
+  MyDemoDynamoTable: # creating a dynamodb resource here with the name MYDDBtable
+    Type: AWS::Serverless::SimpleTable 
+    Properties:
+      TableName: MyDemoDynamodbTable 
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      SSESpecification:
+        SSEEnabled: false
+      Tags:
+        Project: DemoVisitCount
+
 
 
 #Outputs to show as soon as deployment finishes successfully.
@@ -132,6 +167,9 @@ Outputs: # This will be printed to the console when the deployment finishes,
   UpdateVisitsAPI: # It will give us back this api endpoint url which we can use to interact with our fnc.
     Description: "API Gateway endpoint URL for Prod stage for Update Visits"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/visits/"
+  UpdateDemoVisitsAPI: 
+    Description: "Demo API Gateway endpoint URL for Prod stage for Update Visits"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Stage/visits/"
   EmailSendAPI:
     Description: "API Gateway endpoint URL for Prod stage for Email confirmations"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/contact/"

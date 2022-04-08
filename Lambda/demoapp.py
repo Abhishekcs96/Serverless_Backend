@@ -2,9 +2,9 @@ import boto3
 import json
 
 dynamodb = boto3.resource('dynamodb')   #resource dynamodb and set it as a variable to communicate with it
-table = dynamodb.Table('MyDynamodbTable') #set table variable from the ddb resource table in aws.
+table = dynamodb.Table('MyDemoDynamodbTable') #set table variable from the ddb resource table in aws.
 
-def lambda_handler(event, context):
+def demo_lambda_handler(event, context):
     response = table.update_item(          #Update the item in the table 
         Key = {                 #Specify the primary key of the item and then update the attribute of it(id is the primary key)
         "id" : 'id'

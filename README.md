@@ -10,7 +10,7 @@ The template.yaml file consists of serverless resources to be provisioned for th
 
 - sam validate to validate the template.
 - sam local commands to test functions locally.
-- Test the api's at Postman.
+- Test the api's at Postman. 
 
 # Build
 
