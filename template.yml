@@ -83,7 +83,7 @@ Resources:
         Updatevisits: 
           Type: Api 
           Properties: 
-            Path: /visits 
+            Path: /Stage/visits 
             Method: get 
       Policies:
         - AmazonDynamoDBFullAccess
