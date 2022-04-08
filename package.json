@@ -11,7 +11,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "jest"
+    "test": "sh node_modules/.bin/jest",
+    "test:watch": "jest --watch"
   },
   "repository": {
     "type": "git",
