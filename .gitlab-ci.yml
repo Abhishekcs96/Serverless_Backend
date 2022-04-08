@@ -18,7 +18,7 @@ Build and Test:
       - .aws-sam/build
 
 
-.deploy resources:
+deploy resources:
   stage: deploy
   image: registry.gitlab.com/abhishekcs96/serverless_backend/nodepython:latest
   script:
