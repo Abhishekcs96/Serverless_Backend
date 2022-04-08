@@ -11,6 +11,7 @@ Build and Test:
     - cd Lambda
     - python test_demoapp.py
     - cd ..
+    - npm ci
     - npm test
   artifacts:
     paths:
