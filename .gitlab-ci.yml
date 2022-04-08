@@ -1,11 +1,24 @@
 stages:
-  - buildTestDeploy
+  - buildTest
+  - deploy
 
-Build resources:
-  stage: buildTestDeploy
+Build and Test:
+  stage: buildTest
   image: registry.gitlab.com/abhishekcs96/serverless_backend/nodepython:latest
   script:
+    - sam validate
     - sam build
+    - python test_demoapp.py
+    - npm test
+  artifacts:
+    paths:
+      - build
+
+
+deploy resources:
+  stage: deploy
+  image: registry.gitlab.com/abhishekcs96/serverless_backend/nodepython:latest
+  script:
     - sam package --output-template-file packaged.yaml --s3-bucket first-sam-app-2nd-actually-s3bucket-1fqra0mlgvqdq
     - sam deploy --template-file packaged.yaml --stack-name first-sam-app-2nd-actually --s3-bucket first-sam-app-2nd-actually-s3bucket-1fqra0mlgvqdq --capabilities CAPABILITY_IAM --region ap-southeast-2 --no-confirm-changeset --no-fail-on-empty-changeset
     
