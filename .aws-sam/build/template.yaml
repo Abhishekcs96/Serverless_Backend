@@ -9,6 +9,18 @@ Resources:
   BackupBucket:
     Type: AWS::S3::Bucket
     Properties:
+      BucketName: s3.achandrasekar.com
+      CorsConfiguration:
+        CorsRules:
+        - AllowedHeaders:
+          - '*'
+          AllowedMethods:
+          - GET
+          - PUT
+          - POST
+          AllowedOrigins:
+          - '*'
+          MaxAge: '3600'
       AccessControl: PublicRead
       WebsiteConfiguration:
         IndexDocument: index.html
@@ -30,6 +42,9 @@ Resources:
             - - 'arn:aws:s3:::'
               - Ref: BackupBucket
               - /*
+          Condition:
+            StringEquals:
+              aws:Referer: mN62kbnAl3rtY12!Opg2EDF#P9@
       Bucket:
         Ref: BackupBucket
   UpdateTablefnc:
@@ -37,6 +52,7 @@ Resources:
     Properties:
       CodeUri: UpdateTablefnc
       Handler: app.lambda_handler
+      Timeout: 30
       Runtime: python3.9
       Events:
         Updatevisits:
@@ -48,6 +64,23 @@ Resources:
       - AmazonDynamoDBFullAccess
     Metadata:
       SamResourceId: UpdateTablefnc
+  UpdateDemoTablefnc:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: UpdateDemoTablefnc
+      Handler: demoapp.lambda_handler
+      Timeout: 30
+      Runtime: python3.9
+      Events:
+        Updatevisits:
+          Type: Api
+          Properties:
+            Path: /Stage/visits
+            Method: get
+      Policies:
+      - AmazonDynamoDBFullAccess
+    Metadata:
+      SamResourceId: UpdateDemoTablefnc
   EmailFormfnc:
     Type: AWS::Serverless::Function
     Properties:
@@ -98,13 +131,32 @@ Resources:
         SSEEnabled: false
       Tags:
         Project: VisitCount
+  MyDemoDynamoTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: MyDemoDynamodbTable
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      SSESpecification:
+        SSEEnabled: false
+      Tags:
+        Project: DemoVisitCount
 Outputs:
   UpdateVisitsAPI:
-    Description: API Gateway endpoint URL for Prod stage for Update Visits
+    Description: API Gateway endpoint URL for Prod env for Update Visits
     Value:
       Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/visits/
+  UpdateDemoVisitsAPI:
+    Description: Demo API Gateway endpoint URL for Prod env (but stage)  for Update
+      Visits
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/Stage/visits/
   EmailSendAPI:
-    Description: API Gateway endpoint URL for Prod stage for Email confirmations
+    Description: API Gateway endpoint URL for Prod env for Email confirmations
     Value:
       Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/contact/
   WebsiteURL:

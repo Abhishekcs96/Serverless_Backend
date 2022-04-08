@@ -8,7 +8,7 @@ architecture = "x86_64"
 handler = "app.lambda_handler"
 manifest_hash = ""
 packagetype = "Zip"
-functions = ["UpdateTablefnc"]
+functions = ["UpdateTablefnc", "UpdateDemoTablefnc"]
 
 [function_build_definitions.2a2f84ae-7f8b-4181-846a-3ee00714cf24]
 codeuri = "C:\\Users\\DELL\\Desktop\\Serverless_Backend\\Node"

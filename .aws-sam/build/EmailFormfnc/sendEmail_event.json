@@ -1,5 +1,5 @@
 {
-    "name" : "Shek",
+    "name" : "TestEvent",
     "email" : "testing@email.com",
-    "message" : "Test-123"
+    "message" : "This is a test email."
 }
