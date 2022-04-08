@@ -1,5 +1,8 @@
+require('dotenv').config()
 const AWS = require('aws-sdk')
-const ses = new AWS.SES()
+const ses = new AWS.SES({
+    region: process.env.REGION
+})
 //Process the variables into an email and send it to ses.
 const sendEmail = (name, message, senderEmail) => {
     const params = {

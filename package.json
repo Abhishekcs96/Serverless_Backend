@@ -1,0 +1,26 @@
+{
+  "name": "serverless_backend",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Backend for my portfoliomain website.",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.1110.0",
+    "dotenv": "^16.0.0",
+    "jest": "^27.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abhishekcs96/Serverless_Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Abhishekcs96/Serverless_Backend/issues"
+  },
+  "homepage": "https://github.com/Abhishekcs96/Serverless_Backend#readme"
+}
